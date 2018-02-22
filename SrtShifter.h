@@ -6,6 +6,9 @@
 #define SUBSHIFT_SRTSHIFTER_H
 
 #include <string>
+#include <fstream>
+
+#include "SrtTime.h"
 
 using namespace std;
 
@@ -26,10 +29,51 @@ public:
      * shifted back in time. When positive
      * the subtitles are shifted forward in time
      */
-    void shift(double seconds);
+    void shift(const SrtTime& shamt);
 
-private:
-    string file;    // The subtitle file in a string.
+//private:
+    class Subtitle {
+    public:
+        const unsigned int id; // Number of the subtitle, starting from 1.
+
+        SrtTime startTime;
+        SrtTime endTime;
+
+        string subtitle;
+
+        Subtitle(
+                const unsigned int id,
+                const SrtTime& startTime,
+                const SrtTime& endTime,
+                const string& subtitle
+        );
+
+    };
+
+    ifstream in;    // The subtitle input file stream.
+    ofstream out;   // The new subtitle file (probably with the same name).
+
+    /*
+     * Returns the next Subtitle of the file
+     * Including it's id, start time, end time.
+     * i.e:
+     * -------------------
+     * 2
+     * 3 --> 4
+     * This is a subtitle.
+     * -------------------
+     * This member function also
+     * increases the get-pointer of
+     * the <in>(ifstream).
+     */
+    Subtitle nextSubtitle();
+
+    /*
+     * This function prints a subtitle
+     * (the shifted one...)
+     * to the <out>(ofstream)
+     */
+    void printSubtitle(const Subtitle& subtitle);
 
 };
 
