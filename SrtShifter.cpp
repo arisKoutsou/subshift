@@ -45,7 +45,7 @@ SrtShifter::Subtitle SrtShifter::nextSubtitle() {
     while (true) {
         string line;
         getline(in, line);
-        if (line.empty()) break;
+        if (line.empty() || line == "\r") break;
         else {
             text.append(line);
             text.append("\n");
@@ -85,3 +85,4 @@ void SrtShifter::shiftForward(const SrtTime &shamt) {
         }
     }
 }
+

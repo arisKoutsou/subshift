@@ -19,7 +19,7 @@ int main(int argc, char* argv[]) {
 
     SrtShifter srtShifter("../eternal-sunshine.srt");
 
-    srtShifter.shiftForward(SrtTime(00, 00, 50, 000));
+    srtShifter.shiftForward(SrtTime(00, 00, 01, 000));
 
     return EXIT_SUCCESS;
 }
