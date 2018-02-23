@@ -1,5 +1,10 @@
 1
 00:01:22,000 --> 00:02:22,000
 This is the sub.
-This is a newLine
+This is a newLine.
+
+2
+00:03:22,000 --> 00:04:22,000
+This is the sub.
+This is a newLine.
 

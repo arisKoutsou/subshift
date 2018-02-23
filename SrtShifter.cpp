@@ -6,7 +6,7 @@
 #include "SrtShifter.h"
 
 SrtShifter::SrtShifter(const string& subtitleFile)
-        : in(subtitleFile.c_str()), out("out")
+        : in(subtitleFile.c_str()), out((subtitleFile+".shifted").c_str())
 {
     if (!in.is_open()) {
         cout << "Could not open the subtitle file." << endl;
@@ -24,6 +24,11 @@ SrtShifter::Subtitle::Subtitle(
 
 
 SrtShifter::Subtitle SrtShifter::nextSubtitle() {
+
+    if (in.eof()) {
+        throw EndOfFileException();
+    }
+
     unsigned int subtitleId;
     in >> subtitleId;
     in.ignore(256, '\n');
@@ -46,6 +51,8 @@ SrtShifter::Subtitle SrtShifter::nextSubtitle() {
             text.append("\n");
         }
     }
+    while (in.peek() == '\n')
+        in.get();
 
     return Subtitle(
             subtitleId,
@@ -63,6 +70,18 @@ void SrtShifter::printSubtitle(const SrtShifter::Subtitle &subtitle) {
     out << subtitle.subtitle << endl;
 }
 
-void SrtShifter::shift(const SrtTime &shamt) {
+void SrtShifter::shiftForward(const SrtTime &shamt) {
+    while (true) {
+        try {
+            Subtitle currentSubtitle = nextSubtitle();
 
+            currentSubtitle.startTime += shamt;
+            currentSubtitle.endTime += shamt;
+
+            printSubtitle(currentSubtitle);
+
+        } catch (EndOfFileException e) {
+            break;
+        }
+    }
 }

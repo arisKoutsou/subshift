@@ -29,8 +29,9 @@ public:
      * shifted back in time. When positive
      * the subtitles are shifted forward in time
      */
-    void shift(const SrtTime& shamt);
+    void shiftForward(const SrtTime& shamt);
 
+    class EndOfFileException{}; // Exception about eof.
 //private:
     class Subtitle {
     public:

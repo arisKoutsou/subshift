@@ -17,9 +17,9 @@ int main(int argc, char* argv[]) {
     cout << "But it's still being constructed..." << endl;
     cout << endl;
 
-    SrtShifter srtShifter("../file.srt");
+    SrtShifter srtShifter("../eternal-sunshine.srt");
 
-    srtShifter.printSubtitle(srtShifter.nextSubtitle());
+    srtShifter.shiftForward(SrtTime(00, 00, 50, 000));
 
     return EXIT_SUCCESS;
 }
