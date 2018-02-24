@@ -6,9 +6,11 @@
 #include "SrtShifter.h"
 
 SrtShifter::SrtShifter(const string& subtitleFile)
-        : in(subtitleFile.c_str()), out((subtitleFile+".shifted").c_str())
+        : in(subtitleFile.c_str())
 {
-
+    if (in.is_open()) {
+        out.open((subtitleFile+".shifted").c_str());
+    }
 }
 
 SrtShifter::Subtitle::Subtitle(
