@@ -25,6 +25,13 @@ public:
     );
 
     /*
+     * Initializes The class
+     * with that amount of
+     * seconds.
+     */
+    SrtTime(double initSecs);
+
+    /*
      * Adds 2 time objects
      * and returns the result to
      * this time object. (+=).

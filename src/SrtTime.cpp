@@ -14,6 +14,18 @@ SrtTime::SrtTime(
 ) : hours(h), minutes(m), seconds(s), milliSeconds(ms)
 {}
 
+SrtTime::SrtTime(double initSecs) {
+    int remainingMinutes = 0;
+
+    milliSeconds = 1000* ( initSecs - (int)initSecs );
+    seconds = (int(initSecs))%60;
+
+    remainingMinutes = (int(initSecs))/60;
+    minutes = remainingMinutes%60;
+
+    hours = remainingMinutes/60;
+}
+
 int SrtTime::getHours() const {
     return hours;
 }

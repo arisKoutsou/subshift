@@ -30,7 +30,7 @@ public:
      * the subtitles are shifted forward in time
      */
     void shiftForward(const SrtTime& shamt);
-    void shiftBackwards(const SrtTime& shamt);
+    void shiftBackward(const SrtTime& shamt);
 
     bool ready() const;
 

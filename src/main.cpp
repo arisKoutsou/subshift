@@ -7,19 +7,60 @@
 #include <cstring>
 
 #include "SrtShifter.h"
+#include <unistd.h>
+#include <sstream>
 
 using namespace std;
 
 int main(int argc, char* argv[]) {
 
-    cout << "This is the Subtitle Shifter!" << endl;
-    cout << "But it's still being constructed..." << endl;
-    cout << endl;
+    string file;    // Subtitle file to open and process.
+    int c;
+    bool verbose = false;   // If this variable is set, the program logs output info.
+    bool forwards;  // Indicates whether the subtitles are shifted forward.
+    double shamt;   // The shift amount for the subtitles.
+    stringstream s; // for reading the double shamt.
 
-    string file("./samples/eternal-sunshine.srt");
+    while ((c = getopt (argc, argv, "f:b:v::")) != EOF)
+        switch (c)
+        {
+            case 'f':
+                forwards = true;
+                s << optarg;
+                s >> shamt;
+                break;
+            case 'b':
+                forwards = false;
+                s << optarg;
+                s >> shamt;
+                break;
+            case 'v':
+                verbose = true;
+                break;
+            case '?':
+                if (optopt == 'f' || optopt == 'b')
+                    fprintf (stderr, "Option -%c requires an argument.\n", optopt);
+                else if (isprint (optopt))
+                    fprintf (stderr, "Unknown option `-%c'.\n", optopt);
+                else
+                    fprintf (stderr,
+                             "Unknown option character `\\x%x'.\n",
+                             optopt);
+                return 1;
+            default:
+                abort ();
+        }
 
-    while (--argc) {
-        file = argv[argc];
+    if (optind < argc) {
+        do {
+            file = argv[optind];
+        }
+        while ( ++optind < argc);
+    }
+
+    if (verbose) {
+        cout << "Initializing from file:\n\t"
+             << file << endl << endl;
     }
 
     SrtShifter srtShifter(file);
@@ -29,8 +70,20 @@ int main(int argc, char* argv[]) {
         exit(EXIT_FAILURE);
     }
 
-    srtShifter.shiftForward(SrtTime(00, 00, 01, 000));
-    srtShifter.shiftBackwards(SrtTime(00, 00, 01, 000));
+    if (verbose) {
+        cout << "Done\n" << endl;
+        cout << "Shifting the subtitles..." << endl;
+        cout << "Shift amount: " << SrtTime(shamt).toString();
+        cout << (forwards ? " forward" : " backward") << endl << endl;
+    }
+
+    if (forwards) {
+        srtShifter.shiftForward(SrtTime(shamt));
+    } else {
+        srtShifter.shiftBackward(SrtTime(shamt));
+    }
+
+    if (verbose) cout << "Done" << endl;
 
     return EXIT_SUCCESS;
 }

@@ -9,7 +9,7 @@ SrtShifter::SrtShifter(const string& subtitleFile)
         : in(subtitleFile.c_str())
 {
     if (in.is_open()) {
-        out.open((subtitleFile+".shifted").c_str());
+        out.open((subtitleFile + ".shifted").c_str());
     }
 }
 
@@ -93,7 +93,7 @@ void SrtShifter::shiftForward(const SrtTime &shamt) {
     in.seekg(0, ios::beg);  // Shifts...
 }
 
-void SrtShifter::shiftBackwards(const SrtTime &shamt) {
+void SrtShifter::shiftBackward(const SrtTime &shamt) {
     while (true) {
         try {
             Subtitle currentSubtitle = nextSubtitle();
