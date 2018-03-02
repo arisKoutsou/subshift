@@ -57,6 +57,7 @@ private:
 
     };
 
+    string fileName;// The file name of the subtitles.
     ifstream in;    // The subtitle input file stream.
     ofstream out;   // The new subtitle file (probably with the same name).
 

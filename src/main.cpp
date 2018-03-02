@@ -85,5 +85,6 @@ int main(int argc, char* argv[]) {
 
     if (verbose) cout << "Done" << endl;
 
+//    srtShifter.shiftForward(SrtTime(4));
     return EXIT_SUCCESS;
 }

@@ -6,11 +6,9 @@
 #include "SrtShifter.h"
 
 SrtShifter::SrtShifter(const string& subtitleFile)
-        : in(subtitleFile.c_str())
+        : in(subtitleFile.c_str()), fileName(subtitleFile)
 {
-    if (in.is_open()) {
-        out.open((subtitleFile + ".shifted").c_str());
-    }
+
 }
 
 SrtShifter::Subtitle::Subtitle(
@@ -23,7 +21,7 @@ SrtShifter::Subtitle::Subtitle(
 
 
 bool SrtShifter::ready() const {
-    return in.is_open() && out.is_open();
+    return in.is_open();
 }
 
 
@@ -75,6 +73,8 @@ void SrtShifter::printSubtitle(const SrtShifter::Subtitle &subtitle) {
 }
 
 void SrtShifter::shiftForward(const SrtTime &shamt) {
+    out.open(this->fileName + ".shifted");
+
     while (true) {
         try {
             Subtitle currentSubtitle = nextSubtitle();
@@ -91,9 +91,13 @@ void SrtShifter::shiftForward(const SrtTime &shamt) {
 
     in.clear(); // Go to beginning of file for more
     in.seekg(0, ios::beg);  // Shifts...
+
+    out.close();
 }
 
 void SrtShifter::shiftBackward(const SrtTime &shamt) {
+    out.open(this->fileName + ".shifted");
+
     while (true) {
         try {
             Subtitle currentSubtitle = nextSubtitle();
@@ -115,6 +119,8 @@ void SrtShifter::shiftBackward(const SrtTime &shamt) {
 
     in.clear(); // Go to beginning of file for more
     in.seekg(0, ios::beg);  // Shifts...
+
+    out.close();
 }
 
 
