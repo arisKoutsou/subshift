@@ -3,11 +3,11 @@
 
 CC=g++
 CFLAGS= -std=c++98 -ggdb -Wall
-SOURCES = $(shell find -name "*.cpp")
-HEADERS = $(shell find -name "*.h")
+SOURCES = src/main.cpp src/SrtTime.cpp src/SrtShifter.cpp
+HEADERS = src/SrtTime.h src/SrtShifter.h
 
 sshift : $(SOURCES) $(HEADERS)
-	$(CC) $(CFLAGS) $(SOURCES) -o sshift
+	$(CC) $(SOURCES) $(CFLAGS) -o sshift
 
 .PHONY: clean
 
