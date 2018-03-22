@@ -3,12 +3,18 @@
   Reads ".srt" files and spits out the shifted ones.
 
 ### Installation
-  Install with makefile provided, or CMake.
+  Install with makefile provided.
+  ```
+  $ make
+  $ make clean
+  ```
   the executable produced from is named "sshift"
 
 
 ### Usage
+  ```
   $ ./sshift [FILE] [OPTION] ... 
+  ```
 
   can run with various options:
 
